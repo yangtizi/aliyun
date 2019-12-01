@@ -88,6 +88,29 @@ func PutDir(strBucketName, strObjectName string) bool {
 	return true
 }
 
+// SetCORSRule 跨域
+func SetCORSRule(strBucketName string) bool {
+	if client == nil {
+		fmt.Println("没有对应的桶指针")
+		return false
+	}
+
+	rule1 := oossss.CORSRule{
+		AllowedOrigin: []string{"*"},
+		AllowedMethod: []string{"PUT", "GET", "POST", "DELETE", "HEAD"},
+		AllowedHeader: []string{"*"},
+		ExposeHeader:  []string{},
+		MaxAgeSeconds: 200,
+	}
+
+	err := client.SetBucketCORS(strBucketName, []oossss.CORSRule{rule1})
+	if err != nil {
+		fmt.Println("跨域设置错误: ", err)
+	}
+
+	return true
+}
+
 // ReleaseSDK 释放内存
 func ReleaseSDK() {
 	client = nil
