@@ -2,6 +2,7 @@ package oss
 
 import (
 	"fmt"
+	"strings"
 
 	oossss "github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
@@ -57,6 +58,28 @@ func PutObject(strBucketName, strObjectName, strLocalFile string) bool {
 	}
 
 	err = bucket.PutObjectFromFile(strObjectName, strLocalFile, oossss.Progress(&OssProgressListener{}))
+	if err != nil {
+		fmt.Println("上传文件错误: ", err)
+		return false
+	}
+
+	return true
+}
+
+// PutDir 上传文件夹
+func PutDir(strBucketName, strObjectName string) bool {
+	if client == nil {
+		fmt.Println("没有对应的桶指针")
+		return false
+	}
+
+	bucket, err := client.Bucket(strBucketName)
+	if err != nil {
+		fmt.Println("打开桶[", strBucketName, "]错误: ", err)
+		return false
+	}
+
+	err = bucket.PutObject(strObjectName, strings.NewReader(""))
 	if err != nil {
 		fmt.Println("上传文件错误: ", err)
 		return false
