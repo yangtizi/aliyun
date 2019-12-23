@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+	"github.com/yangtizi/aliyun/instances"
 )
 
 const strEndpoint = "oss-cn-hangzhou.aliyuncs.com"
@@ -13,7 +14,8 @@ const strAccessKeySecret = "DEFfqXmalyGtNK4GcVTe0djbq9B6cB"
 const strBucketName = "789test"
 
 func main() {
-	copyFile()
+	instances.DescribeInstances()
+	// securitygroup.CreateAuthorizeSecurityGroupRequest(securitygroup.CreateCreateSecurityGroupRequest())
 }
 
 func copyFile() {

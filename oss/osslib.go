@@ -9,19 +9,19 @@ import (
 
 var client *oossss.Client
 
-// 定义进度条监听器。
-type OssProgressListener struct {
+// TProgressListener 定义进度条监听器。
+type TProgressListener struct {
 }
 
-// 定义进度变更事件处理函数。
-func (listener *OssProgressListener) ProgressChanged(event *oossss.ProgressEvent) {
+// ProgressChanged 定义进度变更事件处理函数。
+func (self *TProgressListener) ProgressChanged(event *oossss.ProgressEvent) {
 	switch event.EventType {
 	// case oossss.TransferStartedEvent:
 	// 	fmt.Printf("传输开始, 已完成: %d, 总字节 %d.\n",
 	// 		event.ConsumedBytes, event.TotalBytes)
 	case oossss.TransferDataEvent:
-		fmt.Printf("\r%d%%.        ",
-			event.ConsumedBytes*100/event.TotalBytes)
+		fmt.Printf("\r(%d%%). (%.2fMB, %.2fMB) ",
+			event.ConsumedBytes*100/event.TotalBytes, float64(event.ConsumedBytes)/1024/1024, float64(event.TotalBytes)/1024/1024)
 	case oossss.TransferCompletedEvent:
 		// fmt.Printf("\n传输完毕, 已完成: %d, 总字节 %d.\n",
 		// 	event.ConsumedBytes, event.TotalBytes)
@@ -57,7 +57,7 @@ func PutObject(strBucketName, strObjectName, strLocalFile string) bool {
 		return false
 	}
 
-	err = bucket.PutObjectFromFile(strObjectName, strLocalFile, oossss.Progress(&OssProgressListener{}))
+	err = bucket.PutObjectFromFile(strObjectName, strLocalFile, oossss.Progress(&TProgressListener{}))
 	if err != nil {
 		fmt.Println("上传文件错误: ", err)
 		return false
