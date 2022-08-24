@@ -82,7 +82,7 @@ func DescribeInstances() {
 		fmt.Print(err.Error())
 	}
 
-	response.TotalCount
+	// response.TotalCount
 
 	for i, v := range response.Instances.Instance {
 		// fmt.Printf("response is %#v\n", v)
